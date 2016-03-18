@@ -48,14 +48,33 @@
 #define BLYNK_PRINT Serial // Enables Serial Monitor
 #include <WiFi101.h>
 #include <BlynkSimpleWiFiShield101.h> // This part is for Ethernet stuff
+#include <Servo.h>
 
 char auth[] = "56939e157ff24a99aed4cf0b30be62d7"; // Put your Auth Token here. (see Step 3 above)
+
+Servo left;
+Servo right;
 
 void setup()
 {
   Serial.begin(9600); // See the connection status in Serial Monitor
   Blynk.begin(auth , "Wifi_Arduino" , "aarduino" );  // Here your Arduino connects to the Blynk Cloud.
-  
+
+  //Servos
+  left.attach(14);
+  right.attach(15);
+
+  left.writeMicroseconds(1500);
+  right.writeMicroseconds(1500);
+}
+
+BLYNK_WRITE(V1) //Virtual1
+{
+  left.write(param.asInt());
+}
+BLYNK_WRITE(V2) //Virtual2
+{
+  right.write(param.asInt());
 }
 
 void loop()
